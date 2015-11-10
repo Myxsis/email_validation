@@ -14,8 +14,8 @@
 	{% endwith %}
 
 	<h3>Entered emails:</h3>
-	{% for email in emails %}
-		<p>{{ email['email'] }} {{ email['created_at'] }}</p>
+	{% for email in emails: %}
+		<p>{{ email['emails'] }}, {{ email['created_at'] }}</p>
 	{% endfor %}
 </body>
 </html>

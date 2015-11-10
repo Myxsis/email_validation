@@ -13,17 +13,20 @@ def index():
 
 @app.route('/email', methods=['POST'])
 def new():
-	session['email'] = request.form['email']
-	query= "INSERT INTO emails (emails, created_at, updated_at) VALUES ('{}', NOW(), NOW())".format(request.form['email'])
+	email = request.form['email']
 	if not EMAIL_REGEX.match(request.form['email']):
 		flash('You must enter a valid email address!')
-		# return redirect('/')
+		return redirect('/')
 	else:
 		flash('The email you entered is a valid email address! Thank you!')
+		query= "INSERT INTO emails (emails, created_at, updated_at) VALUES ('{}', NOW(), NOW())".format(email)
 		print query
 		mysql.run_mysql_query(query)
-		return render_template('success.html')
-	return redirect('/')
+		emails = mysql.fetch('SELECT * FROM emails')
+		return render_template('success.html', emails=emails)
+	# print query
+	# mysql.run_mysql_query(query)
+	# return redirect('/')
 
 
 app.run(debug=True)
